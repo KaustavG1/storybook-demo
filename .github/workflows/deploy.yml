@@ -1,18 +1,18 @@
-name: Build and Publish storybook to GitHub Pages
-
+name: Build and Deploy
 on:
   push:
-    branches:
-      - "main"
+    paths: ["stories/**", "src/components/**"] # Trigger the action only when files change in the folders defined here
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.build-publish.outputs.page_url }}
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - id: build-publish
-      uses: bitovi/github-actions-react-to-ghp@v1.2.0
-      with:
-        path: docs
-        build_command: npm run build-storybook
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Build and deploy to storybook-static branch
+      uses: JamesIves/github-pages-deploy-action@2.0.3
+      env:
+        ACCESS_TOKEN: ${{ secrets.BDOUGIE_TOKEN }}
+        BRANCH: storybook-static
+        FOLDER: storybook-static
+        BUILD_SCRIPT: npm install && npm run build-storybook
