@@ -14,9 +14,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-      - name: Install and Build 🔧
-        run: | # Install npm packages and build the Storybook files
+      - name: Install 🔧
+        run:
           npm install
+      - name: Build 🔧
+        run:
           npm run build-storybook
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.6.2
